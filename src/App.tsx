@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Suspense, useMemo } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Stars, Sparkles, PerspectiveCamera, Environment, Html } from '@react-three/drei'
+import { OrbitControls, Stars, Sparkles, PerspectiveCamera, Environment, Html, Loader } from '@react-three/drei'
 import { EffectComposer, Bloom, Vignette, ChromaticAberration } from '@react-three/postprocessing'
 import * as THREE from 'three'
 import { extend } from '@react-three/fiber'
@@ -87,6 +87,8 @@ function LiminalScene() {
 
       {phase === 'POST_LIMINAL' && (
         <Suspense fallback={null}>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[10, 10, 10]} intensity={1} />
           <TimeCrystal />
           <Stars radius={50} depth={20} count={1000} factor={2} saturation={1} fade speed={0.5} />
           <Environment preset="city" />
@@ -115,25 +117,31 @@ function LiminalScene() {
   )
 }
 
-export default function App() {
-  const [isGateOpen, setIsGateOpen] = useState(false)
-
+function App() {
   return (
-    <div style={{ width: '100vw', height: '100vh', background: 'black' }}>
-      <Gatekeeper onUnlock={() => setIsGateOpen(true)} />
-      
-      {isGateOpen && (
-        <>
-          <RitualUI />
-          <AudioController />
-          <LyricsUI />
-          
-          <Canvas dpr={[1, 2]}>
-            <PerspectiveCamera makeDefault position={[0, 0, 12]} fov={50} />
-            <LiminalScene />
-          </Canvas>
-        </>
-      )}
-    </div>
+    <>
+      <div style={{ width: '100vw', height: '100vh', background: 'black' }}>
+        <Canvas dpr={[1, 2]}>
+          <LiminalScene />
+          <EffectComposer>
+            <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} height={300} intensity={0.5} />
+            <Vignette eskil={false} offset={0.1} darkness={1.1} />
+            <ChromaticAberration offset={new THREE.Vector2(0.002, 0.002)} />
+          </EffectComposer>
+        </Canvas>
+        <Loader 
+          containerStyles={{ background: 'black' }}
+          innerStyles={{ width: '200px', height: '10px', background: '#333' }}
+          barStyles={{ height: '100%', background: '#00ffff' }}
+          dataStyles={{ color: '#00ffff', fontSize: '14px', fontFamily: 'monospace' }}
+        />
+        <RitualUI />
+        <LyricsUI />
+        <Gatekeeper onUnlock={() => {}} />
+        <AudioController />
+      </div>
+    </>
   )
 }
+
+export default App
