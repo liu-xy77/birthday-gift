@@ -1,8 +1,44 @@
 # 项目部署与分享指南
 
-本项目支持多种部署方式。为了方便分享给他人（制作成二维码），推荐使用 **Vercel** 进行免费公网部署。
+本项目支持多种部署方式。为了方便分享给他人（制作成二维码），推荐使用 **Cloudflare Pages**（国内访问更稳定）或 **Vercel**。
 
-## 方案一：本地局域网预览（生成临时二维码）
+## 方案一：永久公网部署（推荐送礼使用）
+
+由于 `vercel.app` 域名在国内部分地区无法直接访问，**强烈推荐使用 Cloudflare Pages**，或者绑定自己的域名。
+
+### 方式 A：使用 Cloudflare Pages (推荐，国内可访问)
+
+Cloudflare Pages 类似于 Vercel，但它的默认域名 `*.pages.dev` 在国内通常可以正常访问，无需 VPN。
+
+1.  **注册账号**：访问 [Cloudflare Dashboard](https://dash.cloudflare.com/sign-up) 并注册（如果已有账号直接登录）。
+2.  **连接 GitHub**：
+    *   在左侧菜单点击 **"Workers & Pages"**。
+    *   点击 **"Create Application"** (创建应用)。
+    *   点击 **"Pages"** 标签页。
+    *   点击 **"Connect to Git"**。
+    *   选择你的 `birthday-gift` 仓库。
+3.  **配置部署**：
+    *   **Project name**: 保持默认或修改。
+    *   **Production branch**: `main`。
+    *   **Framework preset**: 选择 **Vite**。
+    *   点击 **"Save and Deploy"**。
+4.  **获取链接**：
+    *   部署完成后，你会获得一个 `https://xxxx.pages.dev` 的网址。
+    *   **用这个网址去生成二维码**，手机通常可以直接打开。
+
+### 方式 B：使用 Vercel (简单，但需 VPN)
+
+如果你和收到礼物的人都有 VPN，或者你在国外，Vercel 是最简单的选择。
+
+1.  登录 [Vercel](https://vercel.com/)。
+2.  点击 **"Add New..."** -> **"Project"**。
+3.  导入 GitHub 仓库。
+4.  点击 **"Deploy"**。
+5.  获取 `vercel.app` 后缀的链接。
+
+---
+
+## 方案二：本地局域网预览（临时测试）
 
 如果你只想在**同一 WiFi 下**用手机快速查看效果：
 
@@ -13,45 +49,6 @@
    ```
 3. 终端内会自动生成一个二维码，手机扫描即可访问。
    > **注意**：手机必须和电脑连接同一个 WiFi 才能访问。
-
----
-
-## 方案二：永久公网部署（推荐送礼使用）
-
-如果你想将项目制作成二维码卡片送给朋友，需要将项目部署到公网。推荐使用 **Vercel**，它是免费的且速度很快。
-
-### 1. 准备工作
-- 注册一个 [GitHub](https://github.com/) 账号。
-- 注册一个 [Vercel](https://vercel.com/) 账号（可以使用 GitHub 登录）。
-
-### 2. 上传代码到 GitHub
-1. 在 GitHub 上新建一个仓库（Repository），例如叫 `birthday-gift`。
-2. 在本地项目根目录下运行以下命令（如果还没初始化 git）：
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin <你的GitHub仓库地址>
-   git push -u origin main
-   ```
-
-### 3. 在 Vercel 上部署
-1. 登录 Vercel Dashboard。
-2. 点击 **"Add New..."** -> **"Project"**。
-3. 在 "Import Git Repository" 中找到你刚才上传的 GitHub 仓库，点击 **"Import"**。
-4. **Build and Output Settings** 一般保持默认即可（Vite 项目会自动识别）。
-   - Framework Preset: `Vite`
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-5. 点击 **"Deploy"**。
-
-### 4. 获取链接并生成二维码
-1. 部署完成后，Vercel 会给你一个类似 `https://birthday-gift-xxx.vercel.app` 的域名。
-2. 复制这个域名。
-3. 打开二维码生成网站（如 [草料二维码](https://cli.im/)）。
-4. 将域名粘贴进去，生成二维码图片。
-5. 你可以将这个二维码图片打印出来，或者制作成贺卡。
 
 ---
 
