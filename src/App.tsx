@@ -123,8 +123,8 @@ function App() {
       <div style={{ width: '100vw', height: '100vh', background: 'black' }}>
         <Canvas dpr={[1, 2]}>
           <LiminalScene />
-          <EffectComposer>
-            <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} height={300} intensity={0.5} />
+          <EffectComposer disableNormalPass multisampling={0}>
+            <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} height={300} intensity={0.5} mipmapBlur />
             <Vignette eskil={false} offset={0.1} darkness={1.1} />
             <ChromaticAberration offset={new THREE.Vector2(0.002, 0.002)} />
           </EffectComposer>

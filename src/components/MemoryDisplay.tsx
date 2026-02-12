@@ -25,8 +25,9 @@ function ParticleImage({ url, isExiting }: { url: string, isExiting: boolean }) 
   }
 
   const geometry = useMemo(() => {
-    // 提升分辨率
-    const size = 256 
+    // 降低分辨率以适配移动端性能
+    // 桌面端 128 (1.6万点), 移动端建议更低。这里统一使用 100 (1万点) 以保证流畅度
+    const size = 100 
     // 使用计算出的宽高，而不是固定的 12x12
     const geo = new THREE.PlaneGeometry(width, height, size, size) 
     const count = geo.attributes.position.count
