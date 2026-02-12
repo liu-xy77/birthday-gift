@@ -129,13 +129,30 @@ export function MemoryGame({ onComplete }: { onComplete: () => void }) {
             <div style={{
               position: 'absolute', inset: 0, backfaceVisibility: 'hidden',
               transform: 'rotateY(180deg)',
-              // 使用 encodeURI 处理路径中的空格和括号，并添加引号
-              backgroundImage: `url("${encodeURI(card.img)}")`,
-              backgroundPosition: 'center',
-              backgroundSize: 'cover',
-              backgroundRepeat: 'no-repeat',
-              border: '1px solid #ffffff', borderRadius: '8px'
-            }} />
+              border: '1px solid #ffffff', borderRadius: '8px',
+              backgroundColor: '#111', // 添加背景色，防止图片透明或加载慢时透视
+              overflow: 'hidden'
+            }}>
+              <img 
+                src={card.img} 
+                alt="memory"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block' // 消除 inline 间隙
+                }}
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'; // 图片加载失败隐藏
+                  e.currentTarget.parentElement!.style.background = '#333';
+                  e.currentTarget.parentElement!.innerText = 'Img Err'; // 显示错误提示
+                  e.currentTarget.parentElement!.style.color = 'red';
+                  e.currentTarget.parentElement!.style.display = 'flex';
+                  e.currentTarget.parentElement!.style.alignItems = 'center';
+                  e.currentTarget.parentElement!.style.justifyContent = 'center';
+                }}
+              />
+            </div>
           </motion.div>
         ))}
       </div>
